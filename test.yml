@@ -1,0 +1,20 @@
+name: Test Composite Action
+on: [push, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: test
+        with:
+          # token: abcDEF
+          context: ./test
+          package: test-p
+          repository: hdraio/image-build-action-beta.git
+          tag: v0.0.0-test.01
+          ref: draft
+      - name: Verify output
+        run: |
+          echo "Output: ${{ steps.test.outputs.image }}:${{ steps.test.outputs.tag }} [ ${{ steps.test.outputs.size }} ]"
